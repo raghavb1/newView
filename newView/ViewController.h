@@ -31,7 +31,7 @@
     
     NSInteger verticesValue;
     
-    NSString *patternName;
+    NSString *patternName1, *patternName2;
     
     int startValue;
     int counter;

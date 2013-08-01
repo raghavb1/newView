@@ -32,12 +32,14 @@
     opacity = 1.0;
     angleValue=1;
     radiusValue=0;
-    //verticesValue=3;
+    verticesValue=3;
     center = CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height/2);
     startValue=100;
     counter=0;
     
-    patternName=@"Circle";
+    patternName1=@"Circle";
+    patternName2=@"Circle";
+    //NSLog(@"@",patternMenu.backgroundColor);
     
     
     
@@ -70,20 +72,36 @@
     cell.textLabel.text = [patternMenuValues objectAtIndex:indexPath.row];
     cell.textLabel.textColor=[UIColor whiteColor];
     cell.textLabel.font = [UIFont fontWithName:@"Helvetica Bold" size:17.0f];
+    //cell.contentView.alpha  = 0.8;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    patternName=[patternMenuValues objectAtIndex:indexPath.row];
+    NSString *tempPattern=[patternMenuValues objectAtIndex:indexPath.row];
+    if([tempPattern isEqual:@"Circlipse"]){
+        patternName1=@"Circle";
+        patternName2=@"Ellipse";
+    }
+    else if([tempPattern isEqual:@"Ninja"]){
+        patternName1=@"Circle";
+        patternName2=@"iCircle";
+    }
+    else if([tempPattern isEqual:@"Atoms"]){
+        patternName1=@"Ellipse";
+        patternName2=@"iEllipse";
+    }
+    else{
+        patternName1=patternName2=tempPattern;
+    }
     [self toggleAll];
 }
 
 
 -(void)initializePatternMenuValues{
     
-    patternMenuValues = [[NSMutableArray alloc]initWithObjects:@"Circle",@"iCircle",@"Ellipse",@"iEllipse",@"Tube",@"Circlipse",@"Atoms", nil];
+    patternMenuValues = [[NSMutableArray alloc]initWithObjects:@"Circle",@"iCircle",@"Ellipse",@"iEllipse",@"Tube",@"Circlipse",@"Atoms",@"Ninja",nil];
     
 }
 
@@ -171,7 +189,7 @@
     else if ([pattern_type isEqual:@"Ellipse"]){
         nP.x=center.x+(sin(angle++))*radius;
         nP.y= center.y-(cos(angle))*radius;
-        radiusValue=0;
+        //radiusValue=0;
     }
     else if ([pattern_type isEqual:@"iEllipse"]){
         nP.x=center.x+(sin(angle--))*radius;
@@ -216,14 +234,14 @@
 
     mouseSwiped = YES;
     
-    lastPoint=[self nextPoint:patternName];
+    lastPoint=[self nextPoint:patternName1];
     angle=angle+angleValue;
     radius=radius-radiusValue;
     
     //UITouch *touch = [touches anyObject];
     //CGPoint currentPoint;
     //currentPoint = [touch locationInView:self.view];
-    currentPoint=[self nextPoint:patternName];
+    currentPoint=[self nextPoint:patternName2];
     
     //[self changePattern:nil];
     
@@ -231,9 +249,6 @@
     NSLog(@"currentpoint.x is equal to: %f",currentPoint.x);
     NSLog(@"currentpoint.y is equal to: %f",currentPoint.y);
     
-    //UITouch *touch = [touches anyObject];
-    // CGPoint currentPoint;
-    //currentPoint = [touch locationInView:self.view];
     
     
     
